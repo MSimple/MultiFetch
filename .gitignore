@@ -1,0 +1,12 @@
+node_modules/
+dist/
+dist-*/
+transfer/
+*.log
+*.dmpart
+*.dmpart.json
+*.tmp-*
+.smoke-out/
+.smoke-userdata/
+.DS_Store
+Thumbs.db

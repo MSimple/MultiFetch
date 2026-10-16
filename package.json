@@ -1,0 +1,20 @@
+{
+  "name": "downloadmgr",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Original multi-threaded download manager with browser capture. Zero runtime dependencies, no telemetry, no phone-home.",
+  "main": "app/main/main.js",
+  "type": "commonjs",
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test",
+    "lint": "node tools/lint-dom.js && node tools/lint-danger.js",
+    "verify": "npm run lint && npm test",
+    "package": "node tools/package.js"
+  },
+  "devDependencies": {
+    "@electron/packager": "^20.3.0",
+    "electron": "44.7.0"
+  }
+}

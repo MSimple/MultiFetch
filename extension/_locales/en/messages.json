@@ -1,0 +1,6 @@
+{
+  "extName": { "message": "downloadmgr Capture" },
+  "extDescription": {
+    "message": "Sniff page videos/audio/files and download links, send them to the downloadmgr desktop app; supports download takeover and a floating download button. Loopback-only, no telemetry."
+  }
+}

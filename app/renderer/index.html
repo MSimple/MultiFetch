@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'; object-src 'none'">
+  <title>downloadmgr</title>
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <header class="app-bar">
+    <div class="brand">
+      <svg class="brand-logo" viewBox="0 0 32 32" width="26" height="26" aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="dm-logo-grad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#7c9cff"></stop>
+            <stop offset="1" stop-color="#a06bff"></stop>
+          </linearGradient>
+        </defs>
+        <rect x="1" y="1" width="30" height="30" rx="9" fill="url(#dm-logo-grad)"></rect>
+        <path d="M16 7v10" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"></path>
+        <path d="M11 12.5l5 5 5-5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
+        <path d="M9.5 22.5h13" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"></path>
+      </svg>
+      <span class="brand-name" data-i18n="app.title">下载管理器</span>
+    </div>
+    <nav class="seg-nav">
+      <button id="nav-tasks" class="seg-btn is-active" type="button" data-i18n="nav.tasks">任务</button>
+      <button id="nav-settings" class="seg-btn" type="button" data-i18n="nav.settings">设置</button>
+    </nav>
+  </header>
+
+  <main class="content">
+    <section id="tasks-view" class="view"></section>
+    <section id="settings-view" class="view" hidden></section>
+  </main>
+
+  <div id="toasts" class="toasts" role="status" aria-live="polite"></div>
+
+  <script src="js/dom.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/format.js"></script>
+  <script src="js/icons.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/views/tasks.js"></script>
+  <script src="js/views/settings.js"></script>
+  <script src="js/bootstrap.js"></script>
+</body>
+</html>

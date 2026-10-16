@@ -1,0 +1,6 @@
+{
+  "extName": { "message": "downloadmgr Capture" },
+  "extDescription": {
+    "message": "嗅探网页视频/音频/文件与下载链接，发送到 downloadmgr 桌面应用；支持下载接管与悬浮下载按钮。仅与本机回环通信，无遥测。"
+  }
+}

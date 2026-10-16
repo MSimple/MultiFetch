@@ -1,0 +1,341 @@
+<title>downloadmgr 使用手册</title>
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #f7f8fa;
+    --panel: #ffffff;
+    --border: #e3e6ea;
+    --text: #1f242b;
+    --muted: #64707d;
+    --accent: #2f6fed;
+    --accent-soft: #eaf1ff;
+    --warn-bg: #fff7e8;
+    --warn-border: #f0d9a8;
+    --tip-bg: #ecf7ef;
+    --tip-border: #bfe3c8;
+    --code-bg: #f2f4f7;
+    --radius: 10px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg: #14171c;
+      --panel: #1c2027;
+      --border: #2c323b;
+      --text: #e7eaee;
+      --muted: #9aa5b1;
+      --accent: #6ea0ff;
+      --accent-soft: #1e2b45;
+      --warn-bg: #322a17;
+      --warn-border: #5d4c22;
+      --tip-bg: #17281c;
+      --tip-border: #2e4e37;
+      --code-bg: #232830;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #14171c;
+    --panel: #1c2027;
+    --border: #2c323b;
+    --text: #e7eaee;
+    --muted: #9aa5b1;
+    --accent: #6ea0ff;
+    --accent-soft: #1e2b45;
+    --warn-bg: #322a17;
+    --warn-border: #5d4c22;
+    --tip-bg: #17281c;
+    --tip-border: #2e4e37;
+    --code-bg: #232830;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 15px/1.75 "Segoe UI", "Microsoft YaHei", system-ui, -apple-system, sans-serif;
+    padding-block: 32px 64px;
+  }
+  .page { max-width: 880px; margin: 0 auto; padding-inline: 20px; }
+
+  header.hero {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 26px 28px;
+    margin-bottom: 26px;
+  }
+  header.hero h1 { margin: 0 0 6px; font-size: 26px; letter-spacing: -0.01em; }
+  header.hero p.sub { margin: 0; color: var(--muted); }
+  .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .badge {
+    font-size: 12.5px; padding: 2px 10px; border-radius: 999px;
+    background: var(--accent-soft); color: var(--accent);
+  }
+
+  nav.toc {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin-bottom: 26px;
+    columns: 2;
+    column-gap: 28px;
+  }
+  nav.toc a { display: block; color: var(--text); text-decoration: none; padding: 2px 0; font-size: 14px; }
+  nav.toc a:hover { color: var(--accent); }
+  nav.toc a .n { color: var(--muted); margin-right: 6px; font-variant-numeric: tabular-nums; }
+  @media (max-width: 640px) { nav.toc { columns: 1; } }
+
+  section {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 26px;
+    margin-bottom: 20px;
+  }
+  section h2 {
+    margin: 0 0 14px; font-size: 19px;
+    padding-bottom: 8px; border-bottom: 1px solid var(--border);
+  }
+  section h2 .n { color: var(--accent); }
+  h3 { font-size: 15.5px; margin: 20px 0 8px; }
+  p { margin: 8px 0; }
+  ol, ul { margin: 8px 0; padding-left: 22px; }
+  li { margin: 4px 0; }
+
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 14px; }
+  .twrap { overflow-x: auto; }
+  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; white-space: nowrap; }
+  td code, p code, li code { white-space: nowrap; }
+
+  code {
+    font-family: Consolas, "Cascadia Mono", ui-monospace, monospace;
+    font-size: 0.92em;
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 1px 6px;
+  }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    overflow-x: auto;
+    font-size: 13.5px;
+  }
+  pre code { border: none; background: none; padding: 0; }
+
+  .callout { border-radius: 8px; padding: 10px 14px; margin: 12px 0; font-size: 14px; }
+  .callout.tip { background: var(--tip-bg); border: 1px solid var(--tip-border); }
+  .callout.warn { background: var(--warn-bg); border: 1px solid var(--warn-border); }
+  .callout b { margin-right: 6px; }
+
+  .steps { counter-reset: step; list-style: none; padding-left: 0; }
+  .steps li { counter-increment: step; position: relative; padding-left: 34px; margin: 10px 0; }
+  .steps li::before {
+    content: counter(step);
+    position: absolute; left: 0; top: 1px;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--accent); color: #fff;
+    font-size: 12.5px; display: flex; align-items: center; justify-content: center;
+  }
+
+  footer { color: var(--muted); font-size: 13px; text-align: center; margin-top: 26px; }
+  footer a { color: var(--accent); }
+</style>
+
+<div class="page">
+  <header class="hero">
+    <h1>downloadmgr 使用手册</h1>
+    <p class="sub">多线程下载管理器：分段并发 · 断点续传 · 浏览器捕获 · 托盘驻留</p>
+    <div class="badges">
+      <span class="badge">Windows 10 / 11 x64</span>
+      <span class="badge">免安装</span>
+      <span class="badge">无账号 · 无激活</span>
+      <span class="badge">无遥测 · 无外联</span>
+    </div>
+  </header>
+
+  <nav class="toc">
+    <a href="#s1"><span class="n">1</span>安装与启动</a>
+    <a href="#s2"><span class="n">2</span>下载文件</a>
+    <a href="#s3"><span class="n">3</span>设置</a>
+    <a href="#s4"><span class="n">4</span>系统托盘</a>
+    <a href="#s5"><span class="n">5</span>浏览器扩展</a>
+    <a href="#s6"><span class="n">6</span>协议唤起</a>
+    <a href="#s7"><span class="n">7</span>数据与隐私</a>
+    <a href="#s8"><span class="n">8</span>常见问题</a>
+    <a href="#s9"><span class="n">9</span>开发者速览</a>
+  </nav>
+
+  <section id="s1">
+    <h2><span class="n">1</span> 安装与启动</h2>
+    <p><b>打包版（推荐）</b>：双击 <code>dist\downloadmgr-win32-x64\downloadmgr.exe</code> 即可，免安装。建议右键 → 发送到 → 桌面快捷方式。</p>
+    <p><b>开发版</b>：在项目目录执行 <code>npm start</code>。</p>
+    <p><b>首次启动</b>：主窗口打开，默认下载目录自动取系统的「下载」文件夹；<code>downloadmgr://</code> 协议会注册到当前使用的版本（谁最后启动指向谁）。</p>
+    <p><b>卸载</b>：删除程序目录即可。可选清理：删除 <code>%APPDATA%\downloadmgr</code>；执行 <code>reg delete HKCU\Software\Classes\downloadmgr /f</code> 移除协议注册。</p>
+  </section>
+
+  <section id="s2">
+    <h2><span class="n">2</span> 下载文件</h2>
+    <ol class="steps">
+      <li>在顶部输入框粘贴下载地址（http/https 链接）</li>
+      <li>可选：填文件名、改保存目录（默认目录显示在「保存到」一行）</li>
+      <li>点「添加下载」或直接回车</li>
+    </ol>
+    <p><b>分段加速</b>：文件 ≥ 8 MiB 且服务器支持 Range 时自动多段并发（默认每任务 8 段、每段约 4 MiB）；小文件或不支持分段时自动单连接下载。</p>
+
+    <h3>状态含义</h3>
+    <div class="twrap"><table>
+      <tr><th>状态</th><th>含义</th></tr>
+      <tr><td>排队中</td><td>等待空闲任务槽（受「最大同时任务数」限制）</td></tr>
+      <tr><td>连接中</td><td>正在探测文件信息</td></tr>
+      <tr><td>下载中</td><td>传输中（显示实时速度）</td></tr>
+      <tr><td>已暂停</td><td>手动暂停，或应用上次退出时未完成</td></tr>
+      <tr><td>已完成</td><td>文件已落盘并校验大小</td></tr>
+      <tr><td>错误</td><td>悬停状态徽标可看具体原因</td></tr>
+      <tr><td>已取消</td><td>已中止且清理了未完成数据</td></tr>
+    </table></div>
+
+    <h3>行操作</h3>
+    <ul>
+      <li>进行中：<code>暂停</code> <code>取消</code></li>
+      <li>暂停 / 出错 / 已取消：<code>继续</code> <code>删除</code></li>
+      <li>已完成：<code>打开</code> <code>打开目录</code> <code>删除</code></li>
+    </ul>
+    <div class="callout warn"><b>注意</b>「删除」只移除任务记录，<b>不会删除已下载的文件</b>。文件管理请用「打开目录」。</div>
+    <p><b>断点续传</b>：暂停、退出应用甚至崩溃后，「继续」都会从断点接着下载。若服务器上的文件已变化（大小或版本不符），会自动从头重新下载。</p>
+  </section>
+
+  <section id="s3">
+    <h2><span class="n">3</span> 设置</h2>
+    <div class="twrap"><table>
+      <tr><th>项</th><th>说明</th></tr>
+      <tr><td>默认下载目录</td><td>新任务默认保存位置</td></tr>
+      <tr><td>最大同时任务数</td><td>1–20，超出排队</td></tr>
+      <tr><td>每任务分段数</td><td>1–64（大文件的并发线程数上限）</td></tr>
+      <tr><td>全局限速</td><td>KB/s，0 为不限 —— <b>保存后立即生效</b></td></tr>
+      <tr><td>界面语言</td><td>中文 / English（切换后重启应用生效）</td></tr>
+      <tr><td>关闭窗口时最小化到托盘</td><td>默认开；关掉后关窗即退出</td></tr>
+      <tr><td>开机自启</td><td>默认关；开启后以隐藏方式启动到托盘</td></tr>
+      <tr><td>启动时自动继续未完成任务</td><td>默认关</td></tr>
+    </table></div>
+    <h3>浏览器捕获（下半区）</h3>
+    <ul>
+      <li><b>服务状态</b>：本地捕获服务（127.0.0.1，默认端口 8787，被占用时自动向后找）</li>
+      <li><b>捕获后自动开始下载</b>：关闭时，捕获到的任务以「已暂停」进入列表等你确认</li>
+      <li><b>捕获令牌 / 协议令牌</b>：可随时「轮换」；轮换后扩展需要重新配对</li>
+      <li><b>配对</b>：生成 6 位配对码（5 分钟有效、仅限一次），给扩展用</li>
+      <li><b>已配对扩展</b>：列出并「解除」已授权的扩展</li>
+    </ul>
+  </section>
+
+  <section id="s4">
+    <h2><span class="n">4</span> 系统托盘</h2>
+    <ul>
+      <li><b>关闭窗口不会退出</b>，应用缩到托盘继续下载</li>
+      <li>托盘右键菜单：显示主窗口 / 全部暂停 / 全部继续 / 退出</li>
+      <li><b>要完全退出：用托盘菜单的「退出」</b>（或主窗口菜单）</li>
+      <li>找不到图标就往任务栏右下角的溢出区（小箭头）里看</li>
+    </ul>
+  </section>
+
+  <section id="s5">
+    <h2><span class="n">5</span> 浏览器扩展（Chrome / Edge）</h2>
+    <h3>安装</h3>
+    <ol class="steps">
+      <li>打开 <code>chrome://extensions</code>（Edge 为 <code>edge://extensions</code>）</li>
+      <li>打开「开发者模式」</li>
+      <li>「加载已解压的扩展程序」→ 选择项目的 <code>extension</code> 目录</li>
+    </ol>
+    <div class="callout warn"><b>注意</b>扩展 ID 由目录路径决定 —— <b>移动目录会换 ID，需要重新配对</b>。</div>
+
+    <h3>配对（一次性）</h3>
+    <ol class="steps">
+      <li>桌面应用 → 设置 → 浏览器捕获 → <b>生成配对码</b></li>
+      <li>扩展图标右键 → 选项 → 输入配对码 → 「配对」</li>
+      <li>显示「已配对」即完成</li>
+    </ol>
+
+    <h3>能做什么</h3>
+    <ul>
+      <li><b>自动捕获</b>：浏览器触发的下载达到"值得下载"标准时自动送进应用（媒体 / 压缩包 / 安装包 / 文档后缀；≥1 MiB 的二进制；≥8 MiB 的其他文件）。网页本身不会被捕获。</li>
+      <li><b>右键菜单</b>：链接 / 视频 / 音频上右键 →「用 downloadmgr 下载此链接」</li>
+      <li><b>弹窗</b>：点扩展图标 →「发送当前标签页到应用」+ 最近发送记录</li>
+    </ul>
+
+    <h3>选项页</h3>
+    <div class="twrap"><table>
+      <tr><th>项</th><th>默认</th><th>说明</th></tr>
+      <tr><td>自动发送检测到的下载</td><td>开</td><td>关闭后只在右键 / 弹窗手动发送</td></tr>
+      <tr><td>应用接受后取消浏览器下载（交接）</td><td>关</td><td>开启即不再存双击份</td></tr>
+      <tr><td>忽略列表</td><td>空</td><td>每行一个域名（精确 / 子域）或 URL 片段</td></tr>
+      <tr><td>端口 / 令牌</td><td>自动</td><td>配对成功后自动写入；也可手动粘贴应用里的捕获令牌</td></tr>
+    </table></div>
+    <div class="callout tip"><b>离线也不丢</b>应用没开时，捕获会暂存在扩展里，每 30 秒自动重试；应用启动后自动补投。</div>
+  </section>
+
+  <section id="s6">
+    <h2><span class="n">6</span> 协议唤起 downloadmgr://</h2>
+    <p>其他程序或脚本可以拉起应用并直接投递下载任务：</p>
+    <pre><code>downloadmgr://add?url=&lt;URL编码的下载地址&gt;&amp;token=&lt;协议令牌&gt;</code></pre>
+    <ul>
+      <li>协议令牌在「设置 → 浏览器捕获 → 协议令牌」里复制</li>
+      <li>令牌错误或不带令牌会被<b>静默忽略</b>（防滥用门）</li>
+      <li>只接受 http/https 地址</li>
+    </ul>
+    <pre><code>Start-Process "downloadmgr://add?url=$([uri]::EscapeDataString('https://example.com/big.iso'))&amp;token=&lt;你的协议令牌&gt;"</code></pre>
+  </section>
+
+  <section id="s7">
+    <h2><span class="n">7</span> 数据与隐私</h2>
+    <div class="twrap"><table>
+      <tr><th>文件（%APPDATA%\downloadmgr\）</th><th>内容</th></tr>
+      <tr><td><code>settings.json</code></td><td>全部设置</td></tr>
+      <tr><td><code>tasks.json</code>（+.bak 备份）</td><td>任务列表与断点状态</td></tr>
+      <tr><td><code>security.json</code></td><td>两个本地令牌（捕获 / 协议）</td></tr>
+      <tr><td><code>logs\app.log</code></td><td>运行日志（令牌等自动打码）</td></tr>
+    </table></div>
+    <ul>
+      <li><b>无遥测、无外联</b>：应用只访问你指定的下载地址和本机回环</li>
+      <li>TLS 证书校验始终开启，<b>没有</b>关闭开关</li>
+      <li>本地捕获 API 三重门：仅回环监听 + 扩展 Origin 钉死 + 令牌校验</li>
+      <li>文件名统一清洗（防路径穿越 / 保留名 / 特殊字符），目标路径强制约束在下载目录内</li>
+    </ul>
+  </section>
+
+  <section id="s8">
+    <h2><span class="n">8</span> 常见问题</h2>
+    <div class="twrap"><table>
+      <tr><th>现象</th><th>处理</th></tr>
+      <tr><td>下载报 <code>HTTP 401/403</code></td><td>链接需要登录 / 授权，请浏览器里下载</td></tr>
+      <tr><td>报 <code>HTTP 404</code></td><td>链接失效</td></tr>
+      <tr><td>报 <code>HTTP 429</code> 后自动等待</td><td>被限流，应用按服务器指示退避重试</td></tr>
+      <tr><td>报 <code>TLS_…</code> 错误</td><td>目标站证书无效 —— 我们<b>不会</b>替你跳过校验</td></tr>
+      <tr><td>报 <code>DISK_FULL</code> / 磁盘空间不足</td><td>目标盘不够大（文件多大就要多大空闲）。<b>腾出空间后点「继续」即可断点续传，不用重下</b>；或把下载目录改到大容量盘</td></tr>
+      <tr><td>大文件下到 ~4GB 处失败（<code>DISK_FILE_LIMIT</code>）</td><td>目标盘是 FAT32 —— 单文件 4GiB 是文件系统硬上限，任何下载器都绕不过。换 NTFS / exFAT 盘</td></tr>
+      <tr><td>继续任务时从头开始了</td><td>服务器文件已变化，断点不可用，自动重下</td></tr>
+      <tr><td>托盘图标不见了</td><td>检查任务栏溢出区；重启应用恢复</td></tr>
+      <tr><td>改了语言界面没变</td><td>语言切换重启后生效</td></tr>
+      <tr><td>扩展显示"未配对"</td><td>应用里重新生成配对码并在扩展选项页重新配对</td></tr>
+      <tr><td>扩展显示"应用未运行"</td><td>正常：任务已暂存，应用启动后 30 秒内自动补投</td></tr>
+      <tr><td>捕获的任务是暂停的</td><td>默认行为；开「捕获后自动开始下载」即自动跑</td></tr>
+      <tr><td>端口 8787 被占用</td><td>应用自动改用 8788–8807；扩展会自动扫描找到它</td></tr>
+    </table></div>
+  </section>
+
+  <section id="s9">
+    <h2><span class="n">9</span> 开发者速览</h2>
+    <pre><code>npm test        # 全部单测/集成测试（59 个，无需 GUI）
+npm run lint    # DOM 安全 lint + 危险 API lint
+npm run verify  # lint + test
+npm run package # 重新打包到 dist/</code></pre>
+    <p>文档：<code>docs/ARCHITECTURE.md</code>（架构）· <code>docs/SECURITY.md</code>（安全设计与验证矩阵）· <code>docs/EXTENSION.md</code>（扩展详解）· <code>docs/CLEANROOM.md</code>（原创性声明）</p>
+  </section>
+
+  <footer>downloadmgr · 原创软件 · 无遥测 · 无激活 · 使用手册随版本更新</footer>
+</div>

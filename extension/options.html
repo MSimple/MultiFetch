@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>downloadmgr Capture</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="page">
+    <header class="page-head">
+      <svg class="brand-logo" viewBox="0 0 32 32" width="34" height="34" aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="dm-opt-grad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#7c9cff"></stop>
+            <stop offset="1" stop-color="#a06bff"></stop>
+          </linearGradient>
+        </defs>
+        <rect x="1" y="1" width="30" height="30" rx="9" fill="url(#dm-opt-grad)"></rect>
+        <path d="M16 7v10" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"></path>
+        <path d="M11 12.5l5 5 5-5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
+        <path d="M9.5 22.5h13" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"></path>
+      </svg>
+      <div class="page-head-text">
+        <h1 data-i18n="options.title">downloadmgr Capture 选项</h1>
+        <p class="sub" data-i18n="options.subtitle">浏览器捕获与下载接管设置</p>
+      </div>
+    </header>
+
+    <section class="card">
+      <div class="card-head"><h2 data-i18n="options.pair.title">配对</h2></div>
+      <div class="row">
+        <button id="auto-connect" class="btn primary" type="button" data-i18n="options.pair.auto">连接应用（自动配对）</button>
+        <span class="muted" data-i18n="options.pair.autoHint">应用正在运行即可，无需配对码</span>
+      </div>
+      <p class="muted note" data-i18n="options.pair.manualHint">自动配对不可用时（应用里关闭了该功能、或本扩展被撤销），到桌面应用「设置 → 浏览器捕获」生成配对码，在下方输入（5 分钟内有效）。</p>
+      <div class="row">
+        <label for="code" data-i18n="options.pair.code">配对码（手动）</label>
+        <input id="code" type="text" inputmode="numeric" maxlength="6" placeholder="000000" class="input code-input">
+        <button id="pair" type="button" class="btn ghost" data-i18n="options.pair.pairBtn">配对</button>
+      </div>
+      <div id="pair-status" class="status"></div>
+      <div class="row">
+        <label for="port" data-i18n="options.pair.port">端口</label>
+        <input id="port" type="number" class="input">
+        <span id="port-hint" class="muted"></span>
+      </div>
+      <div class="row">
+        <label for="token" data-i18n="options.pair.token">令牌（手动粘贴）</label>
+        <input id="token" type="text" spellcheck="false" class="input token-input">
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-head"><h2 data-i18n="options.takeover.title">下载接管</h2></div>
+      <p class="muted note" data-i18n="options.takeover.hint">开启后，浏览器里触发的下载会交给应用下载（仅在应用在线且已配对时生效；应用不在时浏览器照常下载）。</p>
+      <label class="switch-row">
+        <input id="takeover" type="checkbox">
+        <span class="switch"><i></i></span>
+        <span class="switch-label" data-i18n="options.takeover.enable">接管下载</span>
+      </label>
+      <div class="field">
+        <label data-i18n="options.takeover.categories">接管类别</label>
+        <div id="cats" class="cats"></div>
+      </div>
+      <div class="row">
+        <label for="custom-ext" data-i18n="options.takeover.customExt">追加扩展名</label>
+        <input id="custom-ext" type="text" class="input" data-i18n-placeholder="options.takeover.customExtPlaceholder" placeholder="如 psd, sketch（逗号分隔）">
+      </div>
+      <div class="row">
+        <label for="min-size" data-i18n="options.takeover.minSize">体积下限（MB，0 为不限）</label>
+        <input id="min-size" type="number" min="0" class="input">
+      </div>
+      <div class="field">
+        <label for="ignore" data-i18n="options.takeover.ignore">排除列表（每行一个域名或 URL 片段：不嗅探、不接管）</label>
+        <textarea id="ignore" rows="4" spellcheck="false" class="input"></textarea>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="row">
+        <label data-i18n="options.locale">界面语言</label>
+        <div id="locale" class="sel"></div>
+      </div>
+    </section>
+
+    <div class="footer-actions">
+      <button id="save" class="btn primary" type="button" data-i18n="options.save">保存</button>
+      <button id="restore" type="button" class="btn ghost" data-i18n="options.restore">恢复默认</button>
+      <span id="save-status" class="muted"></span>
+    </div>
+  </div>
+
+  <script src="lib/storage.js"></script>
+  <script src="lib/i18n.js"></script>
+  <script src="lib/client.js"></script>
+  <script src="lib/detect.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

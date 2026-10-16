@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>downloadmgr</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="pop">
+    <header class="pop-head">
+      <div class="brand">
+        <svg class="brand-logo" viewBox="0 0 32 32" width="24" height="24" aria-hidden="true" focusable="false">
+          <defs>
+            <linearGradient id="dm-pop-grad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#7c9cff"></stop>
+              <stop offset="1" stop-color="#a06bff"></stop>
+            </linearGradient>
+          </defs>
+          <rect x="1" y="1" width="30" height="30" rx="9" fill="url(#dm-pop-grad)"></rect>
+          <path d="M16 7v10" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"></path>
+          <path d="M11 12.5l5 5 5-5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
+          <path d="M9.5 22.5h13" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"></path>
+        </svg>
+        <span class="brand-name">downloadmgr</span>
+      </div>
+      <span id="status" class="pill off"><i class="live"></i><span id="status-text" class="pill-text">…</span></span>
+    </header>
+
+    <div class="tools">
+      <input id="search" class="input search" type="search" data-i18n-placeholder="popup.search.placeholder" placeholder="搜索…">
+      <div id="cat-filter" class="cat-filter"></div>
+      <div id="sort" class="sort"></div>
+    </div>
+
+    <div id="list" class="list"></div>
+
+    <div class="actions">
+      <button id="selAll" class="btn ghost" type="button" data-i18n="popup.selectAll">全选</button>
+      <button id="clear" class="btn ghost" type="button" data-i18n="popup.clear">清空</button>
+      <button id="send" class="btn primary" type="button" data-i18n="popup.send">发送到应用</button>
+    </div>
+
+    <label class="switch-row">
+      <input id="takeover" type="checkbox">
+      <span class="switch"><i></i></span>
+      <span class="switch-label" data-i18n="popup.takeover">接管浏览器下载（视频 / 音频 / 安装包…）</span>
+    </label>
+
+    <a href="#" id="open-options" class="options-link" data-i18n="popup.options">选项 / 配对 / 接管规则…</a>
+  </div>
+
+  <script src="lib/storage.js"></script>
+  <script src="lib/i18n.js"></script>
+  <script src="lib/select.js"></script>
+  <script src="lib/client.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
